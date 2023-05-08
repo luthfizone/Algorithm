@@ -1,7 +1,11 @@
-# Mendefinisikan konstanta tak terhingga = INF
+# Mendefinisikan konstanta tak hingga dengan INF
+"""
+Jadi gampangnya INF itu buat pengganti data asfia yang
+tak terhingga
+"""
 INF = float('inf')
 
-# Matriks bobot dari grafik yang akan dihitung
+# Matriks data punya asfia yang akan dihitung
 data_asfia = [
     [0, 2.6, 12.3, 14.6, 14, INF, INF, INF],
     [2.6, 0, INF, 12.2, INF, 17.4, INF, INF],
@@ -12,20 +16,50 @@ data_asfia = [
     [INF, INF, 14.7, INF, 11.1, INF, 27.5, 0]
 ]
 
-# Jumlah simpul pada grafik
-n = len(data_asfia)
+# Panjang jumlah data pada 
+n = len(data_asfia) # datanya ada 7 karena dihitung index dari 0 - 8 bukan dari 1-8
 
 # Fungsi untuk menghitung jarak terpendek menggunakan algoritma Floyd-Warshall
 
-
+"""
+Maksud dari kode dibawah gampangnya terdapat variabel distance yang 
+di masukin data tabel diatas dengan range perulangannya itu 7
+"""
 def floyd_warshall(data_asfia):
-   # Membuat salinan matriks bobot pada variabel distance
+   # Membuat salinan matriks data kamu pada variabel distance
     distance = []
     for i in range(n):
         row = []
         for j in range(n):
             row.append(data_asfia[i][j])
         distance.append(row)
+        
+ """
+ PENTING...
+
+Kode dibawah ini menjelaskan bagaimana caranya algoritma floyd-warshall bekerja
+dimulai dari terdapatnya 3 perulangan (iterasi) yang digunakan untuk mengakses
+setiap elemen dalam matriks data distance secara berulang-ulang.
+
+Perulangan k digunakan buat ngecek setiap simpul seagai simpul perantara yang
+mungkin dapat memperbarui jarak terpendek antara dua simpul yang lain.
+
+Perulangan i digunakan buat mengiterasi (perulangan) simpul-simpul asal,
+
+Perulangan j digunakan untuk melakukan iterasi perulangan simpul-simpul tujuan
+
+Kemudian membuat variabel distance[i][j] dengan arti dari:
+- distance[i][j] : mempresentasikan jarak terpendek antara simpul i dan j
+- distance[i][k] : mempresentasikan jarak antara simpul i dan simpul perantara k
+- distance[k][j] : mempresentasikan jarak antara simpul perantara k dan simpul j
+
+Dalam setiap perulangan, jarak terpendek antara simpul i dan j akan diperbaharui jika
+ditemukan jalur baru melalui simpul perantara k yang lebih pendek daripada jalur sebelumnya.
+
+Proses ini dilakukan secara berulang-ulang hingga ditemukan jalur terpendek antara setiap
+pasangan simpul dalam grafik data sumber
+
+"""
 
     # Melakukan iterasi sebanyak n kali untuk mencari jarak terpendek
     for k in range(n):
@@ -35,11 +69,34 @@ def floyd_warshall(data_asfia):
                 distance[i][j] = min(
                     distance[i][j], distance[i][k] + distance[k][j])
 
-    # Mencetak hasil akhir
+
+    # Mencetak hasil akhir dari simpul yang telah dibuat diatas
     print_solution(distance)
 
-# Fungsi untuk mencetak hasil akhir
+# Kemudian membuat fungsi untuk mencetak hasil akhir
 
+"""
+Kode dibawah berfungsi untuk mencetaknya di terminal..
+
+Pada baris pertama terdapat perulangan menggunakan range(n)
+yang digunakan untuk mengakses setiap elemen dalam matriks jarak
+distance yang merupakan matriks dengan ukuran 'n' x 'n' dan berisi
+jarak terpendek antara simpul-simpul pada grafik
+
+Pada setiap iterasi, baris 'if' digunakan untuk mengecek apakah jarak
+antara dua simpul yang sedang diperiksa tidak terbatas atau tak terhingga,
+jika jarak antara dua simpul tak terbatas, maka akan dicetak string "INF"
+dengan tambahan spasi untuk memisahkan setiap elemen, sedangkan jika jarak antara dua
+simpul terdefinisi, maka nilai jarak tersebut akan dicetak dengan tambahan tab('\t')
+sebagai pemisah antara setiap elemen
+
+Pada akhir setiap iterasi (perulangan dalam perulangan 'j', diperintahkan untuk
+'print(" ")' digunakan untuk mencetak baris baru sehingga output hasil cetakan matriks
+jarak terpendek antar simpul menjadi lebih terstruktur dan mudah dibaca,
+
+Kode tersebut dapat digunakan untuk mencetak solusi dari algoritma floyn-warshall dalam
+format matriks dengan ukuran 'n' x 'n'
+"""
 
 def print_solution(distance):
     for i in range(n):
@@ -50,6 +107,8 @@ def print_solution(distance):
             else:
                 print(distance[i][j], end="\t")
         print(" ")
+        
+
 
 
 # Memanggil fungsi floyd_warshall untuk menghitung jarak terpendek pada matriks bobot data_asfia
