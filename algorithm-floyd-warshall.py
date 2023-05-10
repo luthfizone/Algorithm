@@ -102,11 +102,13 @@ format matriks dengan ukuran 'n' x 'n'
 def print_solution(distance):
     for i in range(n):
         for j in range(n):
-            # Jika jarak antara dua simpul tak terbatas, maka cetak INF
+            # Jika jarak antara dua simpul tak terbatas, maka cetak INF dan berikan string kosong
             if (distance[i][j] == INF):
                 print("INF", end=" ")
+            # Jika karak antara dua simpul tak terbatas, maka cetak hasilnya, dan berikan \t atau tab
             else:
                 print(distance[i][j], end="\t")
+            # print dibawah dibutuhkan untuk memisahkan per baris data yang akan digunakan, semisal tidak pakai ini maka akan di print 16 data menyamping
         print(" ")
         
 
