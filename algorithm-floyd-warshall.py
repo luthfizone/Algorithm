@@ -107,7 +107,7 @@ def print_solution(distance):
                 print("INF", end=" ")
             # Jika karak antara dua simpul tak terbatas, maka cetak hasilnya, dan berikan \t atau tab
             else:
-                print(distance[i][j], end="\t")
+                print("{:.1f}".format(distance[i][j]), end="\t")
             # print dibawah dibutuhkan untuk memisahkan per baris data yang akan digunakan, semisal tidak pakai ini maka akan di print 16 data menyamping
         print(" ")
         
