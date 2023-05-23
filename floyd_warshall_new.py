@@ -1,6 +1,7 @@
-INF = float("inf")
+# Mendefinisikan konstanta tak hingga dengan INF
+INF = float('inf')
 
-# Matriks jarak antar simpul
+# Matriks data punya asfia yang akan dihitung
 data_asfia = [
     [0, 2.6, 12.3, 14.6, 14, INF, INF, INF],
     [2.6, 0, INF, 12.2, INF, 17.4, INF, INF],
@@ -12,10 +13,12 @@ data_asfia = [
     [INF, INF, 14.7, INF, 11.1, INF, 27.5, 0]
 ]
 
-n = len(data_asfia)
+# Panjang jumlah data pada 
+n = len(data_asfia) # datanya ada 7 karena dihitung index dari 0 - 8 bukan dari 1-8
 
+# Fungsi untuk menghitung jarak terpendek menggunakan algoritma Floyd-Warshall
 def floyd_warshall(data_asfia):
-    # Matriks jarak terpendek awal
+    # Membuat salinan matriks data_asfia pada variabel distance
     distance = []
     for i in range(n):
         row = []
@@ -23,59 +26,58 @@ def floyd_warshall(data_asfia):
             row.append(data_asfia[i][j])
         distance.append(row)
 
-    # Algoritma Floyd-Warshall untuk mencari jarak terpendek
+    # Inisialisasi matriks jalur untuk menyimpan jalur terpendek antar simpul
+    path = [[None for _ in range(n)] for _ in range(n)]
+    for i in range(n):
+        for j in range(n):
+            if i != j and distance[i][j] != INF:
+                path[i][j] = i
+
+    # Algoritma Floyd-Warshall untuk mencari jarak terpendek dan jalur terpendek
     for k in range(n):
         for i in range(n):
             for j in range(n):
-                distance[i][j] = min(distance[i][j], distance[i][k] + distance[k][j])
+                if distance[i][j] > distance[i][k] + distance[k][j]:
+                    distance[i][j] = distance[i][k] + distance[k][j]
+                    path[i][j] = path[k][j]
 
-    return distance
+    print_solution(distance, path)
 
-result = floyd_warshall(data_asfia)
+# Fungsi untuk mencetak hasil akhir termasuk jalur terpendek
+def print_solution(distance, path):
+    print("Matriks jarak terpendek antar simpul:")
+    for i in range(n):
+        for j in range(n):
+            if distance[i][j] == INF:
+                print("INF", end="\t")
+            else:
+                print("{:.1f}".format(distance[i][j]), end="\t")
+        print()
 
-def get_shortest_distance(origin, destination):
-    # Mendapatkan jarak terpendek dari simpul asal ke simpul tujuan
-    return result[origin][destination]
+    print("\nJarak terpendek dari setiap simpul ke simpul lain:\n")
+    for i in range(n):
+        for j in range(n):
+            if i != j:
+                print("Simpul", i, "ke simpul", j, ":", "{:.1f}".format(distance[i][j]))
 
-# Fungsi untuk menghitung total jarak antara dua pasang simpul
-def calculate_total_distance(origin1, destination1, origin2, destination2):
-    jarak1 = get_shortest_distance(origin1, destination1)
-    jarak2 = get_shortest_distance(origin2, destination2)
-    return jarak1 + jarak2
-
-# Cetak semua hasil perhitungan matriks jarak terpendek antar simpul
-print("Matriks jarak terpendek antar simpul:")
-for i in range(n):
-    for j in range(n):
-        if result[i][j] == INF:
-            print("INF", end="\t")
-        else:
-            print("{:.1f}".format(result[i][j]), end="\t")
+    print("\nJalur terpendek antar simpul:\n")
+    for i in range(n):
+        for j in range(n):
+            if i != j:
+                print("Simpul", i, "ke simpul", j, ": ", end="")
+                print_path(i, j, path)
+                print(j)
     print()
 
-print()
+# Fungsi rekursif untuk mencetak jalur terpendek antar simpul
+def print_path(start, end, path):
+    if start == end:
+        print(start, end=" -> ")
+    elif path[start][end] is None:
+        print("Tidak ada jalur dari", start, "ke", end)
+    else:
+        print_path(start, path[start][end], path)
+        print(path[start][end], end=" -> ")
 
-# Cetak jarak terpendek dari setiap simpul ke simpul lain
-print("Jarak terpendek dari setiap simpul ke simpul lain:")
-for i in range(n):
-    for j in range(n):
-        if i != j:
-            print("Simpul", i, "ke simpul", j, ":", "{:.1f}".format(result[i][j]))
-            
-# Memberikan jarak
-
-print("\n")
-
-
-
-# Meminta input dari pengguna untuk pengolahan data baru
-origin1 = int(input("Masukkan simpul asal pertama: "))
-destination1 = int(input("Masukkan simpul tujuan pertama: "))
-origin2 = int(input("Masukkan simpul asal kedua: "))
-destination2 = int(input("Masukkan simpul tujuan kedua: "))
-
-# Menghitung total jarak dari dua pasang simpul yang dimasukkan pengguna
-total_jarak = calculate_total_distance(origin1, destination1, origin2, destination2)
-
-# Cetak total jarak dari dua pasang simpul
-print("Total jarak dari simpul", origin1, "ke simpul", destination1, "dan simpul", origin2, "ke simpul", destination2, ":", total_jarak)
+# Memanggil fungsi floyd_warshall untuk menghitung jarak terpendek dan jalur terpendek pada matriks data_asfia
+floyd_warshall(data_asfia)
