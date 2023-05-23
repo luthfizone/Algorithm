@@ -1,4 +1,3 @@
-# Menetapkan nilai infinity
 INF = float("inf")
 
 # Matriks jarak antar simpul
@@ -13,10 +12,10 @@ data_asfia = [
     [INF, INF, 14.7, INF, 11.1, INF, 27.5, 0]
 ]
 
-n = len(data_asfia)  # Jumlah simpul
+n = len(data_asfia)
 
-# Algoritma Floyd-Warshall
 def floyd_warshall(data_asfia):
+    # Matriks jarak terpendek awal
     distance = []
     for i in range(n):
         row = []
@@ -24,7 +23,7 @@ def floyd_warshall(data_asfia):
             row.append(data_asfia[i][j])
         distance.append(row)
 
-    # Perhitungan jarak terpendek
+    # Algoritma Floyd-Warshall untuk mencari jarak terpendek
     for k in range(n):
         for i in range(n):
             for j in range(n):
@@ -32,9 +31,19 @@ def floyd_warshall(data_asfia):
 
     return distance
 
-result = floyd_warshall(data_asfia)  # Hasil jarak terpendek antar simpul
+result = floyd_warshall(data_asfia)
 
-# Cetak matriks jarak terpendek antar simpul
+def get_shortest_distance(origin, destination):
+    # Mendapatkan jarak terpendek dari simpul asal ke simpul tujuan
+    return result[origin][destination]
+
+# Fungsi untuk menghitung total jarak antara dua pasang simpul
+def calculate_total_distance(origin1, destination1, origin2, destination2):
+    jarak1 = get_shortest_distance(origin1, destination1)
+    jarak2 = get_shortest_distance(origin2, destination2)
+    return jarak1 + jarak2
+
+# Cetak semua hasil perhitungan matriks jarak terpendek antar simpul
 print("Matriks jarak terpendek antar simpul:")
 for i in range(n):
     for j in range(n):
@@ -53,22 +62,14 @@ for i in range(n):
         if i != j:
             print("Simpul", i, "ke simpul", j, ":", "{:.1f}".format(result[i][j]))
 
-# Fungsi untuk mendapatkan jarak terpendek antara dua simpul
-def get_shortest_distance(origin, destination):
-    return result[origin][destination]
+# Meminta input dari pengguna untuk pengolahan data baru
+origin1 = int(input("Masukkan simpul asal pertama: "))
+destination1 = int(input("Masukkan simpul tujuan pertama: "))
+origin2 = int(input("Masukkan simpul asal kedua: "))
+destination2 = int(input("Masukkan simpul tujuan kedua: "))
 
-print("\n")
-# Contoh penggunaan fungsi get_shortest_distance dengan input dari terminal
-origin = int(input("Masukkan simpul asal: "))
-destination = int(input("Masukkan simpul tujuan: "))
+# Menghitung total jarak dari dua pasang simpul yang dimasukkan pengguna
+total_jarak = calculate_total_distance(origin1, destination1, origin2, destination2)
 
-jarak_terpendek = get_shortest_distance(origin, destination)
-print(f"Jarak terpendek dari simpul {origin} ke simpul {destination}: {jarak_terpendek}")
-
-# Menggunakan hasil perhitungan dalam pengolahan data baru
-jarak_03 = get_shortest_distance(0, 3)
-jarak_25 = get_shortest_distance(2, 5)
-
-# Melakukan operasi atau pemrosesan data dengan menggunakan jarak terpendek
-total_jarak = jarak_03 + jarak_25
-print("Total jarak dari simpul 0 ke simpul 3 dan simpul 2 ke simpul 5:", total_jarak)
+# Cetak total jarak dari dua pasang simpul
+print("Total jarak dari simpul", origin1, "ke simpul", destination1, "dan simpul", origin2, "ke simpul", destination2, ":", total_jarak)
