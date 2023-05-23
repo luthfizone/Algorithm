@@ -61,6 +61,12 @@ for i in range(n):
     for j in range(n):
         if i != j:
             print("Simpul", i, "ke simpul", j, ":", "{:.1f}".format(result[i][j]))
+            
+# Memberikan jarak
+
+print("\n")
+
+
 
 # Meminta input dari pengguna untuk pengolahan data baru
 origin1 = int(input("Masukkan simpul asal pertama: "))
