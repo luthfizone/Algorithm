@@ -30,9 +30,28 @@ def floyd_warshall(data_asfia):
 
 result = floyd_warshall(data_asfia)
 
+# Cetak semua hasil perhitungan
+
+print("Matriks jarak terpendek antar simpul:")
+for i in range(n):
+    for j in range(n):
+        if result[i][j] == INF:
+            print("INF", end="\t")
+        else:
+            print("{:.1f}".format(result[i][j]), end="\t")
+    print()
+
+print()
+print("Jarak terpendek dari setiap simpul ke simpul lain:")
+for i in range(n):
+    for j in range(n):
+        if i != j:
+            print("Simpul", i, "ke simpul", j, ":", result[i][j])
+
 def get_shortest_distance(origin, destination):
     return result[origin][destination]
 
+print("\n")
 # Contoh penggunaan fungsi get_shortest_distance dengan input dari terminal
 origin = int(input("Masukkan simpul asal: "))
 destination = int(input("Masukkan simpul tujuan: "))
