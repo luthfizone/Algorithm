@@ -42,11 +42,13 @@ for i in range(n):
     print()
 
 print()
+
 print("Jarak terpendek dari setiap simpul ke simpul lain:")
 for i in range(n):
     for j in range(n):
         if i != j:
-            print("Simpul", i, "ke simpul", j, ":", result[i][j])
+            print("Simpul", i, "ke simpul", j, ":", "{:.1f}".format(result[i][j]))
+
 
 def get_shortest_distance(origin, destination):
     return result[origin][destination]
