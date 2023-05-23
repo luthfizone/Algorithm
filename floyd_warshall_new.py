@@ -1,5 +1,7 @@
+# Menetapkan nilai infinity
 INF = float("inf")
 
+# Matriks jarak antar simpul
 data_asfia = [
     [0, 2.6, 12.3, 14.6, 14, INF, INF, INF],
     [2.6, 0, INF, 12.2, INF, 17.4, INF, INF],
@@ -11,8 +13,9 @@ data_asfia = [
     [INF, INF, 14.7, INF, 11.1, INF, 27.5, 0]
 ]
 
-n = len(data_asfia)
+n = len(data_asfia)  # Jumlah simpul
 
+# Algoritma Floyd-Warshall
 def floyd_warshall(data_asfia):
     distance = []
     for i in range(n):
@@ -21,6 +24,7 @@ def floyd_warshall(data_asfia):
             row.append(data_asfia[i][j])
         distance.append(row)
 
+    # Perhitungan jarak terpendek
     for k in range(n):
         for i in range(n):
             for j in range(n):
@@ -28,10 +32,9 @@ def floyd_warshall(data_asfia):
 
     return distance
 
-result = floyd_warshall(data_asfia)
+result = floyd_warshall(data_asfia)  # Hasil jarak terpendek antar simpul
 
-# Cetak semua hasil perhitungan
-
+# Cetak matriks jarak terpendek antar simpul
 print("Matriks jarak terpendek antar simpul:")
 for i in range(n):
     for j in range(n):
@@ -43,13 +46,14 @@ for i in range(n):
 
 print()
 
+# Cetak jarak terpendek dari setiap simpul ke simpul lain
 print("Jarak terpendek dari setiap simpul ke simpul lain:")
 for i in range(n):
     for j in range(n):
         if i != j:
             print("Simpul", i, "ke simpul", j, ":", "{:.1f}".format(result[i][j]))
 
-
+# Fungsi untuk mendapatkan jarak terpendek antara dua simpul
 def get_shortest_distance(origin, destination):
     return result[origin][destination]
 
